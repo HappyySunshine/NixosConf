@@ -14,9 +14,11 @@
            packages = with pkgs; [ 
                 nodejs_22
                 typescript
+                pnpm
                 #javascript-typescript-langserver
                 nodePackages_latest.typescript-language-server
                 pkgs2.bun
+                # nodePackages.sass
            ];        
            #GOPLS_PATH = "${pkgs.gopls}/bin/gopls"; 
         };

@@ -10,6 +10,9 @@
         devShells."${system}".default = pkgs.mkShell{
            packages = with pkgs; [blender];        
            buildInputs = with pkgs;[
+                mesa
+                mesa.drivers
+                   
                     wayland
                    libGLU
                    libglvnd
@@ -18,6 +21,7 @@
                    eglexternalplatform
           ];
         };
+        LD_LIBRARY_PATH="/run/opengl-driver/lib:/run/opengl-driver-32/lib";
          # packages.x86_64-linux.default = pkgs.mkShell{
          #     packages = [pkgs.blender];
          # };

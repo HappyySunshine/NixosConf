@@ -1,10 +1,12 @@
 --vim.g.barbar_auto_setup = false -- disable auto-setup
 
 require'barbar'.setup {
-
-  insert_at_end = false,
-  insert_at_start = false,
-
+  insert_at_end = true,
+  -- insert_at_start = false,
+  hide= {
+        -- current = true,
+        inactive = true,
+    }
 }
 
 
@@ -33,3 +35,13 @@ map('n', '<A-0>', '<Cmd>BufferLast<CR>', opts)
 map('n', '<A-p>', '<Cmd>BufferPin<CR>', opts)
 -- Close buffer
 map('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
+
+-- vim.keymap.set("n", "<A-h>", "<cmd>tabprevious<CR>" , { silent = true })
+-- vim.keymap.set("n", "<A-l>", "<cmd>tabnext<CR>" , { silent = true })
+-- vim.keymap.set("n", "tn", "<cmd>tabnew | b# | tabprevious | q! | tabnext<CR>" , { silent = true })
+vim.keymap.set("n", "tn", function()
+    vim.cmd('tabnew')
+    vim.cmd('BufferPin')
+end, opts)
+-- vim.keymap.set("n", "to", "<cmd>tabonly!<CR>" , { silent = true })
+-- vim.keymap.set("n", "tq", "<cmd>tabc<CR>" , { silent = true })

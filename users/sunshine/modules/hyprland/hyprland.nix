@@ -20,7 +20,7 @@
   decoration = {
    inactive_opacity = 0.8;
     rounding = 20;
-    shadow_ignore_window = false;
+    # shadow_ignore_window = false;
    # dim_inactive = true
    # dim_strength = 0.8
     blur = {
@@ -49,17 +49,20 @@
     bind =
       [
         "$mod, A, fullscreen, 0"
-         "$mod, Q, killactive"
+        "$mod, Q, killactive"
         "$mod, Y, exec, wezterm"
+        "$mod, G, exec, google-chrome-stable"
         "$mod, T, exec, alacritty"
         "$mod, F, exec, firefox"
         "$mod, D, exec, discord"
-        "$mod, K, exec, kitty"
+        "$mod, M, exec, prismlauncher"
+
+        # "$mod, K, exec, kitty"
         "$mod, B, exec, pkill waybar"
         "$mod+CTRL, B, exec, waybar"
 
         ", Print, exec, grimblast copy area"
-        "$mod, M, exit"
+        "$mod+Shift, M, exit"
         "$mod, Q, killactive"
       ]
       ++ (

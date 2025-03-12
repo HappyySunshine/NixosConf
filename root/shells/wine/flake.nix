@@ -13,6 +13,8 @@
         devShells."${system}".default = pkgs.mkShell{
            packages = with pkgs; [
                wineWowPackages.full
+                winetricks
+                # wineWayland
                # wineWowPackages.waylandFull
                     ];        
            buildInputs = with pkgs;[

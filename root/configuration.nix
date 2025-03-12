@@ -6,21 +6,15 @@
     
   imports =
     [ 
+            ./jupyter.nix
       ./hardware-configuration.nix
       ./boot.nix
       ./desktop_manager.nix
       ./pkgs.nix
-    #  ./nvim/neovim.nix
-   #   inputs.hyprland.nixosModules.default
+        ./network.nix
+        ./users.nix
     ];
     options = {
-       # pkgs.overlays = [nixgl.overlay ];
-     #   pkgs.hyprland.override =  { # or inputs.hyprland.packages.${pkgs.system}.hyprland
-     #     enableXWayland = true;  # whether to enable XWayland
-     #     legacyRenderer = true; # whether to use the legacy renderer (for old GPUs)
-     #     withSystemd = true;     # whether to build with systemd support
-    #        };
-      # myjdk = pkgs.jdk21.override {};
     };
 
     config = {
@@ -29,25 +23,18 @@
   	remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
   	dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
+ services.xserver.videoDrivers = [ "modesetting" ];
     programs.nix-ld.enable = true;
+      virtualisation.waydroid.enable = true;
    # programs.nixgl = {
    #     enable = true;
    # };
         hardware.uinput.enable =true;
       virtualisation.docker.enable = true;
-       # users.groups.uinput.members = ["sunshine"];
        # users.groups.input.members = ["sunshine"];
         
       # services.input-remapper.enable = true;
 
-      networking.hostName = "nixos"; # Define your hostname.
-      # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-      # Configure network proxy if necessary
-      # networking.proxy.default = "http://user:password@proxy:port/";
-      # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-      networking.networkmanager.enable = true;
 
       time.timeZone = "America/Recife";
 
@@ -119,23 +106,6 @@
       nix.settings.experimental-features = [ "nix-command" "flakes" ];
       programs.zsh.enable = true;
 
-      users.users.sunshine = {
-        isNormalUser = true;
-        description = "happy sunshine";
-        extraGroups = [ "networkmanager" "wheel" "uinput" "input" ];
-        shell = pkgs.zsh;
-      };
-      
-
-      users.defaultUserShell = pkgs.zsh;
-
-      
-      users.users.lfs = {
-        isNormalUser = true;
-        description = "binux from scratch";
-        extraGroups = [ "networkmanager" "wheel" "uinput" "input"];
-      };
-
       
       nixpkgs.config.allowUnfree = true;
 
@@ -144,7 +114,10 @@
      # xdg.portal.enable = true;
      # xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
      fonts.packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "Hack" "JetBrainsMono" ]; })
+           pkgs.nerd-fonts._0xproto
+           pkgs.nerd-fonts.droid-sans-mono
+            pkgs.nerd-fonts.hack
+      # (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "Hack" "JetBrainsMono" ]; })
       openmoji-color
       gentium
       cantarell-fonts
@@ -165,12 +138,25 @@
       # programs.sway.enable = true;
      # security.polkit.enable = true;
      # security.sudo.configFile = "sunshine ALL=(ALL:ALL) ALL";
-        hardware.opengl = {
+#         hardware.opengl = let
+#   custom-mesa = pkgs.mesa .override {
+#     enableTextureFloats = true;
+#   };
+# in {
+#   package = pkgs.buildEnv {
+#     name = "opengl-hack";
+#     paths = [ pkgs.mesa custom-mesa custom-mesa.drivers pkgs.libtxc_dxtn_s2tc ];
+#   };
+        # hardware.graphics={
+            # enable = true;
+            # extraPackages= with pkgs; [ intel-media-driver intel-ocl intel-vaapi-driver mesa.drivers mesa ];
+        # };
+# };
+         hardware.opengl = {
           enable = true;
-          extraPackages = [ pkgs.mesa.drivers ];
-         # driSupport = true;
-         # driSupport32Bit = true;
-         # extraPackages = with pkgs; [ libva-utils ];
+          extraPackages = with pkgs;[ pkgs.mesa.drivers  libva-utils  mesa  ];
+          # driSupport32Bit = true;
+          # extraPackages = with pkgs; [ libva-utils  ];
       };
       # hardware.nvidia.modesetting.enable = true;
       # environment.etc."vicksy.jpg".source = ./vicksy.jpg;
@@ -186,9 +172,6 @@
       # Enable the OpenSSH daemon.
       # services.openssh.enable = true;
 
-      networking.firewall.allowedTCPPorts = [ 80 3000 3001 ];
-      networking.firewall.allowedUDPPorts = [ 80 3000 3001 ];
-      networking.firewall.enable = true;
       system.stateVersion = "24.11"; 
     };
 }

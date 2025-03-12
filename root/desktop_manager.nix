@@ -5,6 +5,7 @@
  #     services.xserver.displayManager.autoLogin.user = "sunshine";
       #services.xserver.displayManager.autoLogin.enable = true;
        security.pam.services.login.enableGnomeKeyring = true;
+    security.polkit.enable = true;
 	services.xserver.enable =true;
 #	services.xserver.displayManager.gdm.enable = true;
     services.xserver.desktopManager.gnome.enable = true;

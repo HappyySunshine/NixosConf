@@ -1,20 +1,20 @@
-{config, pkgs, inputs, lib, ... }:
-let 
-    nixos_path = "/etc/nixos";
+{ config, pkgs, bobox, inputs, lib, ... }:
+let
+  nixos_path = "/etc/nixos";
 in
 {
-        
+
   # config.colorScheme = inputs.nix-colors.colorSchemes.dracula;
   home.username = "sunshine";
   home.homeDirectory = "/home/sunshine";
   home.stateVersion = "24.11";
-   imports = [
-   # inputs.nix-colors.homeManagerModules.default
-        ./systemd.nix
-         ./modules
-        # ./../shared/home.nix
+  imports = [
+    # inputs.nix-colors.homeManagerModules.default
+    ./systemd.nix
+    ./modules
+    # ./../shared/home.nix
 
-      #inputs.xremap-flake.homeManagerModules.default
+    #inputs.xremap-flake.homeManagerModules.default
   ];
   programs.git = {
     enable = true;
@@ -23,31 +23,55 @@ in
   };
 
   home.packages = with pkgs; [
-   # inputs.xremap-flake.packages.${system}.default
-     hyprpaper
-     hyprlock
-     hypridle
+    eww
+    tmux
+
+    whatsie
+    vdhcoapp
+    universal-ctags
+    # inputs.xremap-flake.packages.${system}.default
+    # tetex
+    prismlauncher
+    atlauncher
+    bobox.grapejuice
+    waydroid
+    wireshark
+    metabase
+    texliveFull
+    libreoffice-qt6
+
+    # Network
+    arp-scan
+    nmap
+
+
+    # notion
+
+    hyprpaper
+    hyprlock
+    hypridle
     kitty
     grimblast
-   spotify
-   mako 
-   waybar
-   eww
-   swayimg
-   xorg.xrandr
-   brightnessctl
+    spotify
+    mako
+    waybar
+    eww
+    swayimg
+    xorg.xrandr
+    brightnessctl
     zoxide
     thunderbird
     radare2
+    openbox
 
     broot
     nnn
 
-steam-run
+    steam-run
     #gui
     firefox
     discord
-   # obs-studio
+    # obs-studio
     lutris
     godot_4
     qbittorrent
@@ -55,78 +79,78 @@ steam-run
     gimp
     blender
     krita
-    android-studio 
+    android-studio
     android-tools
     google-chrome
     brave
     # mysql
-   # steam
-   # q4wine
-   # android-studio
+    # steam
+    # q4wine
+    # android-studio
   ];
 
-  programs.zsh={
+  programs.zsh = {
+    enable = true;
+    enableAutosuggestions = true;
+    defaultKeymap = "vicmd";
+    dirHashes = {
+      docs = "$HOME/Documents";
+      vids = "$HOME/Videos";
+      dl = "$HOME/Downloads";
+      imgs = "$HOME/images";
+    };
+    dotDir = ".config/zsh";
+    envExtra = ""; #.zshenv
+    historySubstringSearch = {
       enable = true;
-      enableAutosuggestions = true;
-      defaultKeymap = "vicmd";
-      dirHashes= {
-                 docs  = "$HOME/Documents";
-                 vids  = "$HOME/Videos";
-                 dl    = "$HOME/Downloads";
-                 imgs = "$HOME/images";
-               };
-        dotDir = ".config/zsh";
-        envExtra = ""; #.zshenv
-        historySubstringSearch={
-            enable = true;
-        };
-        initExtra= ''
-         dev(){
-                nix develop /etc/nixos/root/shells/$1
-                echo "ready to code $1!"
-            }
-        \builtin alias cd=__zoxide_z
-        \builtin alias zi=__zoxide_zi
-         eval "$(zoxide init zsh)"
+    };
+    initExtra = ''
+       dev(){
+              nix develop /etc/nixos/root/shells/$1
+              echo "ready to code $1!"
+          }
+      \builtin alias cd=__zoxide_z
+      \builtin alias zi=__zoxide_zi
+       eval "$(zoxide init zsh)"
 
-         clear
-         neofetch
-            ''; #.zshrc
-        oh-my-zsh={
-            extraConfig= "AGNOSTER_PROMPT_SEGMENTS=prompt_git";
-            enable = true;
-            theme =  "agnoster";
-            plugins =[
-                "colorize"
-                "cp"
-                "sudo"
-                "git"
-                
-            ];
-        };
-        shellAliases= {
-            ".." = "cd ..";
-            s = "sudo nixos-rebuild switch --flake /etc/nixos/";
-            h = ''
-                nix build ${nixos_path}/#homeConfigurations."sunshine".activationPackage -o ${nixos_path}/result
-                ${nixos_path}/result/activate
-                '';
-        };
-        profileExtra ='''';
-        
+       clear
+       neofetch
+    ''; #.zshrc
+    oh-my-zsh = {
+      extraConfig = "AGNOSTER_PROMPT_SEGMENTS=prompt_git";
+      enable = true;
+      theme = "agnoster";
+      plugins = [
+        "colorize"
+        "cp"
+        "sudo"
+        "git"
+
+      ];
+    };
+    shellAliases = {
+      ".." = "cd ..";
+      s = "sudo nixos-rebuild switch --flake /etc/nixos/";
+      h = ''
+        nix build ${nixos_path}/#homeConfigurations."sunshine".activationPackage -o ${nixos_path}/result
+        ${nixos_path}/result/activate
+      '';
+    };
+    profileExtra = '''';
+
   };
 
-  
+
 
   programs.bash = {
     enable = true;
     enableCompletion = true;
-    initExtra= ''
-     dev(){
-            nix develop /etc/nixos/root/shells/$1
-            echo "ready to code $1!"
-            }
-        '';
+    initExtra = ''
+      dev(){
+             nix develop /etc/nixos/root/shells/$1
+             echo "ready to code $1!"
+             }
+    '';
 
     bashrcExtra = lib.mkDefault ''
       export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/go/bin"
@@ -143,12 +167,12 @@ steam-run
   };
 
 
- # programs.steam = {
+  # programs.steam = {
   #	enable = true;
   #	remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
   #	dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   #};
-# a regex pattern
+  # a regex pattern
 
   # starship - an customizable prompt for any shell
 }

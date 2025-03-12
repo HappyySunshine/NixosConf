@@ -25,3 +25,7 @@ vim.opt.updatetime = 50
 vim.opt.colorcolumn = ""
 
 vim.opt.tabpagemax = 5
+
+vim.wo.foldmethod = 'manual'
+-- vim.wo.foldmethod = 'expr'
+-- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'

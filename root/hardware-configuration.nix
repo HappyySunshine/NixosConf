@@ -29,10 +29,10 @@
       fsType = "ext4";
     };
 
-  fileSystems."/programs" =
-    { device = "/dev/disk/by-uuid/cf071d4b-151b-4553-96cc-b75f56847644";
-      fsType = "ext4";
-    };
+  # fileSystems."/programs" =
+    # { device = "/dev/disk/by-uuid/cf071d4b-151b-4553-96cc-b75f56847644";
+      # fsType = "ext4";
+    # };
 
   swapDevices =
     [ { 

@@ -6,7 +6,9 @@
            hyprland.url = "github:hyprwm/hyprland/";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    robox.url = "github:nixos/nixpkgs/190c31a89e5eec80dd6604d7f9e5af3802a58a13";
      nix-colors.url = "github:misterio77/nix-colors";
+    nixgl.url = "github:nix-community/nixGL";
      #xremap-flake.url =  "/etc/nixos/my-stuff/xremap-flake";
      xremap-flake.url =  "github:xremap/nix-flake";
    #  nix-index-database.url = "github:Mic92/nix-index-database";
@@ -21,6 +23,7 @@
   let 
     # pkgs = nixpkgs;
     system = "x86_64-linux";
+    bobox = import inputs.robox{inherit system;};
     hyprland = inputs.hyprland.packages.${system}.hyprland;
   #import nixpkgs {
       #system = "x86_64-linux";
@@ -30,7 +33,7 @@
 
       homeConfigurations = (
         import ./home-conf.nix {
-          inherit  hyprland system nixpkgs home-manager inputs ;
+          inherit  hyprland system nixpkgs home-manager bobox inputs ;
         }
       );
     nixosConfigurations = {

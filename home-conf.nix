@@ -1,4 +1,4 @@
-{ system, nixpkgs, home-manager, inputs, hyprland, ... }:
+{ system, nixpkgs, home-manager, inputs, hyprland, bobox, ... }:
 let
   # username = "sunshine";
   # homeDirectory = "/home/${username}";
@@ -14,7 +14,7 @@ let
 in{
     "sunshine" = home-manager.lib.homeManagerConfiguration {
     inherit pkgs;
-     extraSpecialArgs = { inherit inputs; inherit hyprland; }; 
+     extraSpecialArgs = { inherit inputs; inherit hyprland; inherit bobox; }; 
 
         #stateVersion = "24.05";
     modules = [ ./users/sunshine/home.nix];
