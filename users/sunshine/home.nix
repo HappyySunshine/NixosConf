@@ -1,34 +1,34 @@
 { config, pkgs, bobox, inputs, lib, ... }:
 let
   nixos_path = "/etc/nixos";
+  username = "sunshine";
 in
 {
 
-  # config.colorScheme = inputs.nix-colors.colorSchemes.dracula;
-  home.username = "sunshine";
-  home.homeDirectory = "/home/sunshine";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   home.stateVersion = "24.11";
   imports = [
-    # inputs.nix-colors.homeManagerModules.default
     ./systemd.nix
     ./modules
-    # ./../shared/home.nix
-
-    #inputs.xremap-flake.homeManagerModules.default
   ];
   programs.git = {
+    extraConfig.credential.helper = "manager";
+    extraConfig.credential."https://github.com".username = "HappyySunshine";
+    extraConfig.credential.credentialStore = "cache";
     enable = true;
-    userName = "Happy sunshine";
-    userEmail = "maxthedog1200@gmail.com";
+    userName = "happyysunshine";
+    userEmail = "happysunshine.pone@gmail.com";
   };
 
   home.packages = with pkgs; [
-    eww
+    git-credential-manager
+    pavucontrol
     tmux
-
     whatsie
     vdhcoapp
     universal-ctags
+    TsS
     # inputs.xremap-flake.packages.${system}.default
     # tetex
     prismlauncher
@@ -132,15 +132,13 @@ in
       ".." = "cd ..";
       s = "sudo nixos-rebuild switch --flake /etc/nixos/";
       h = ''
-        nix build ${nixos_path}/#homeConfigurations."sunshine".activationPackage -o ${nixos_path}/result
+        nix build ${nixos_path}/#homeConfigurations."${username}".activationPackage -o ${nixos_path}/result
         ${nixos_path}/result/activate
       '';
     };
     profileExtra = '''';
 
   };
-
-
 
   programs.bash = {
     enable = true;
@@ -165,7 +163,6 @@ in
       urlencode = "python3 -c 'import sys, urllib.parse as ul; print(ul.quote_plus(sys.stdin.read()))'";
     };
   };
-
 
   # programs.steam = {
   #	enable = true;

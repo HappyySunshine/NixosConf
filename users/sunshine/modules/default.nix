@@ -3,7 +3,7 @@
   imports = [
     ./nvim/neovim.nix
     ./alacritty.nix
-    ./wezterm.nix
+    ./wezterm
     ./tmux
     ./hyprland
     ./eww
