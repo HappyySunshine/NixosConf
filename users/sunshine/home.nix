@@ -1,7 +1,6 @@
-{ config, pkgs, bobox, inputs, lib, ... }:
+{ config, pkgs, bobox, inputs, lib, username, ... }:
 let
   nixos_path = "/etc/nixos";
-  username = "sunshine";
 in
 {
 
@@ -9,7 +8,6 @@ in
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "24.11";
   imports = [
-    ./systemd.nix
     ./modules
   ];
   programs.git = {
@@ -28,7 +26,7 @@ in
     whatsie
     vdhcoapp
     universal-ctags
-    TsS
+    # TsS
     # inputs.xremap-flake.packages.${system}.default
     # tetex
     prismlauncher

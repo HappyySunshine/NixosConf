@@ -26,6 +26,7 @@
       bobox = import inputs.robox { inherit system; };
       hyprland = inputs.hyprland.packages.${system}.hyprland;
       pkgs = nixpkgs;
+      username = "sunshine";
     in
     {
       homeConfigurations =
@@ -36,9 +37,9 @@
           };
         in
         {
-          sunshine = home-manager.lib.homeManagerConfiguration {
+          "${username}" = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
-            extraSpecialArgs = { inherit inputs; inherit hyprland; inherit bobox; };
+            extraSpecialArgs = { inherit inputs; inherit username; inherit hyprland; inherit bobox; };
             modules = [ ./users/sunshine/home.nix ];
           };
 
